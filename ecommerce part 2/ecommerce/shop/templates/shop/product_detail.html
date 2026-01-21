@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="product-detail">
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <p>Price: R{{ product.price }}</p>
+
+    <hr>
+
+    <h3>Customer Reviews</h3>
+
+    {% if reviews %}
+        {% for review in reviews %}
+            <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+                <strong>{{ review.user.username }}</strong> rated: {{ review.rating }}/5
+                {% if review.is_verified %}
+                    <span style="color: green;">✔ Verified Purchase</span>
+                {% else %}
+                    <span style="color: gray;">✖ Unverified</span>
+                {% endif %}
+                <p>{{ review.comment }}</p>
+                <small>{{ review.created_at|date:"F j, Y" }}</small>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No reviews yet. Be the first to review this product!</p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        {% if form %}
+            <h4>Write a Review</h4>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit Review</button>
+            </form>
+        {% else %}
+            <p><em>You have already reviewed this product.</em></p>
+        {% endif %}
+    {% else %}
+        <p><a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to leave a review.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">My Stores</h1>
+
+  <!-- Create New Store button -->
+  <a href="{% url 'create_store' %}" class="btn btn-success mb-4">
+    + Create New Store
+  </a>
+
+  <!-- Loop through stores -->
+  {% for shop in stores %}
+    <div class="card p-4 mb-3">
+      <h4><strong>{{ shop.name }}</strong></h4>
+      <p>{{ shop.description }}</p>
+
+      <!-- Buttons -->
+      <a href="{% url 'edit_store' shop.id %}" class="btn btn-primary me-2">Edit</a>
+      <a href="{% url 'delete_store' shop.id %}" class="btn btn-danger me-2">Delete</a>
+      <a href="{% url 'add_product' shop.id %}" class="btn btn-success me-2">+ Add Product</a>
+
+      <!-- View Products button -->
+      <a href="{% url 'product_list' shop.id %}" class="btn btn-info">View Products</a>
+    </div>
+  {% empty %}
+    <p>You have no stores yet. Click above to create one!</p>
+  {% endfor %}
+</div>
+{% endblock %}

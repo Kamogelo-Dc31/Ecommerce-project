@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to the E-commerce Site</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h1 class="display-4">Welcome to the E-commerce Platform</h1>
+            <p class="lead">Use the navigation below to register or explore products.</p>
+
+            {% if not user.is_authenticated %}
+                <a href="{% url 'login' %}" class="btn btn-primary">🔐 Login</a>
+            {% else %}
+                <div class="alert alert-success mt-3">
+                    You are logged in as <strong>{{ user.username }}</strong>.
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <ul class="list-group shadow">
+                    <li class="list-group-item">
+                        <a href="{% url 'register_buyer' %}" class="text-decoration-none">🛍️ Register as Buyer</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'register_vendor' %}" class="text-decoration-none">🧑‍💼 Register as Vendor</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'all_products' %}" class="text-decoration-none">🛒 Browse Products</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'my_stores' %}" class="text-decoration-none">🏬 My Stores</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'create_store' %}" class="text-decoration-none">➕ Create Store</a>
+                    </li>
+
+                    {% if user.is_authenticated and user.is_buyer %}
+                        <li class="list-group-item">
+                            <a href="{% url 'cart' %}" class="text-decoration-none">🧺 View Cart</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{% url 'checkout' %}" class="text-decoration-none">💳 Checkout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
